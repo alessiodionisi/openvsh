@@ -1,0 +1,19 @@
+mainmenu "OpenVSH"
+
+choice OPENVSH_DEVICE_CHOICE
+    prompt "OpenVSH device type."
+    default OPENVSH_DEVICE_NONE
+
+config OPENVSH_DEVICE_NONE
+	bool "None"
+
+config OPENVSH_DEVICE_LIGHT_SWITCH
+	bool "Light switch"
+
+endchoice
+
+module = OPENVSH
+module-str = openvsh
+source "subsys/logging/Kconfig.template.log_config"
+
+source "Kconfig.zephyr"

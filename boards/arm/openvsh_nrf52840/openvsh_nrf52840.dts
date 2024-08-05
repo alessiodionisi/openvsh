@@ -1,0 +1,30 @@
+/dts-v1/;
+#include <nordic/nrf52840_qiaa.dtsi>
+#include <zephyr/dt-bindings/input/input-event-codes.h>
+
+/ {
+	model = "OpenVSH NRF52840";
+	compatible = "openvsh,openvsh-nrf52840";
+
+	chosen {
+		zephyr,sram = &sram0;
+		zephyr,flash = &flash0;
+		zephyr,ieee802154 = &ieee802154;
+	};
+};
+
+&gpiote {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&ieee802154 {
+	status = "okay";
+};

@@ -1,0 +1,16 @@
+/ {
+  aliases {
+    led-red = &led0;
+    led-green = &led0;
+    led-blue = &led0;
+
+    pwm-led-red = &pwm_led0;
+    pwm-led-green = &pwm_led0;
+    pwm-led-blue = &pwm_led0;
+
+    button-1 = &button0;
+
+    relay-1 = &led1;
+    relay-2 = &led1;
+  };
+};

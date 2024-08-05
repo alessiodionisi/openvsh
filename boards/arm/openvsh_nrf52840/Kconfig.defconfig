@@ -1,0 +1,9 @@
+if BOARD_OPENVSH_NRF52840
+
+config BOARD
+	default "openvsh_nrf52840"
+
+config BT_CTLR
+	default BT
+
+endif # BOARD_OPENVSH_NRF52840
