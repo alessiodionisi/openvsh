@@ -173,11 +173,6 @@ void rgb_set_state(rgb_state_t state)
   pwm_set_pulse_dt(&pwm_led_green, 0U);
   pwm_set_pulse_dt(&pwm_led_blue, 0U);
 
-  // Calculate step for levels
-  uint32_t level1 = pwm_led_red.period / 6U;
-  uint32_t level2 = level1 * 3U;
-  uint32_t level3 = level1 * 6U;
-
   switch (state)
   {
   case RGB_STATE_NONE:
