@@ -7,8 +7,8 @@ choice OPENVSH_DEVICE_CHOICE
 config OPENVSH_DEVICE_NONE
 	bool "None"
 
-config OPENVSH_DEVICE_LIGHT_SWITCH
-	bool "Light switch"
+config OPENVSH_DEVICE_ON_OFF_LIGHT
+	bool "On/Off Light"
 
 endchoice
 

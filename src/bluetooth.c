@@ -1,6 +1,6 @@
 #include "bluetooth.h"
 
-LOG_MODULE_REGISTER(openvsh_bluetooth, CONFIG_OPENVSH_LOG_LEVEL);
+LOG_MODULE_DECLARE(openvsh, CONFIG_OPENVSH_LOG_LEVEL);
 
 static struct bluetooth_callbacks *registered_callbacks;
 

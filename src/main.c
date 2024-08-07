@@ -9,7 +9,7 @@
 
 LOG_MODULE_REGISTER(openvsh, CONFIG_OPENVSH_LOG_LEVEL);
 
-#ifdef CONFIG_OPENVSH_DEVICE_LIGHT_SWITCH
+#ifdef CONFIG_OPENVSH_DEVICE_ON_OFF_LIGHT
 static struct pwm_dt_spec pwm_led_red_spec = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led_red));
 static struct pwm_dt_spec pwm_led_green_spec = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led_green));
 static struct pwm_dt_spec pwm_led_blue_spec = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led_blue));
@@ -25,7 +25,7 @@ static struct gpio_dt_spec relay_2_spec = GPIO_DT_SPEC_GET(DT_ALIAS(relay_2), gp
 
 static struct gpio_dt_spec button_spec = GPIO_DT_SPEC_GET(DT_ALIAS(button), gpios);
 
-static bool light_switch_on = false;
+static bool light_on = false;
 
 RGB_DECLARE(rgb, &rgb_spec);
 
@@ -34,12 +34,12 @@ RELAY_DECLARE(relay_2, &relay_2_spec);
 
 void button_pressed()
 {
-  LOG_INF("button pressed, toggling light switch state");
+  LOG_INF("button pressed, toggling light state");
 
-  light_switch_on = !light_switch_on;
+  light_on = !light_on;
 
-  relay_1_set(light_switch_on);
-  relay_2_set(light_switch_on);
+  relay_1_set(light_on);
+  relay_2_set(light_on);
 }
 
 void button_pressed_for_10_seconds()
@@ -65,7 +65,7 @@ int main(void)
 {
   bluetooth_configure();
 
-#ifdef CONFIG_OPENVSH_DEVICE_LIGHT_SWITCH
+#ifdef CONFIG_OPENVSH_DEVICE_ON_OFF_LIGHT
   RGB_CONFIGURE(rgb, &rgb_spec);
 
   RELAY_CONFIGURE(relay_1, &relay_1_spec);
@@ -74,8 +74,8 @@ int main(void)
   BUTTON_CONFIGURE(button, &button_spec);
 #endif
 
-  rgb_set_color(255, 255, 255);
-  rgb_start_fading();
+  // rgb_set_color(255, 255, 255);
+  // rgb_start_fading();
 
   return 0;
 }

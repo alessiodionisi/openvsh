@@ -5,6 +5,5 @@ project(openvsh)
 
 target_sources(app PRIVATE
   src/main.c
-  # src/rgb.c
   src/bluetooth.c
 )
