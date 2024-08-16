@@ -12,8 +12,8 @@ namespace openvsh
     button_.configure(&button_spec_);
     rgb_.configure(&pwm_led_red_spec_, &pwm_led_green_spec_, &pwm_led_blue_spec_);
 
-    // rgb_.set_color(RGBColor::White);
-    // rgb_.start_fading();
+    rgb_.set_color(RGBColor::White);
+    rgb_.start_fading();
   }
 
   void OnOffLight::run()
