@@ -2,7 +2,7 @@
 
 LOG_MODULE_DECLARE(openvsh, CONFIG_OPENVSH_LOG_LEVEL);
 
-static struct bluetooth_callbacks *registered_callbacks;
+static ovsh_bluetooth_callbacks_t *registered_callbacks;
 
 static const struct bt_data advertisement_data[] = {
     BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
@@ -13,13 +13,13 @@ static const struct bt_data scan_response_data[] = {};
 
 static void connected_handler(struct bt_conn *conn, uint8_t err)
 {
-  if (err)
+  if (err != 0)
   {
-    LOG_ERR("Bluetooth connection failed (err %u)", err);
+    LOG_ERR("Bluetooth connection failed (err: %u)", err);
     return;
   }
 
-  LOG_DBG("Bluetooth connected");
+  LOG_INF("Bluetooth connected");
 
   if (registered_callbacks && registered_callbacks->connected)
   {
@@ -29,7 +29,7 @@ static void connected_handler(struct bt_conn *conn, uint8_t err)
 
 static void disconnected_handler(struct bt_conn *conn, uint8_t reason)
 {
-  LOG_DBG("Bluetooth disconnected (reason %u)", reason);
+  LOG_INF("Bluetooth disconnected (reason: %u)", reason);
 
   if (registered_callbacks && registered_callbacks->disconnected)
   {
@@ -42,68 +42,68 @@ BT_CONN_CB_DEFINE(conn_callbacks) = {
     .disconnected = disconnected_handler,
 };
 
-bool bluetooth_disable()
+int ovsh_bluetooth_disable()
 {
   int err;
 
   err = bt_le_adv_stop();
-  if (err)
+  if (err != 0)
   {
-    LOG_ERR("Bluetooth advertising failed to stop (err %d)", err);
-    return false;
+    LOG_ERR("Bluetooth advertising failed to stop (err: %d)", err);
+    return err;
   }
 
   err = bt_disable();
-  if (err)
+  if (err != 0)
   {
-    LOG_ERR("Bluetooth disable failed (err %d)", err);
-    return false;
+    LOG_ERR("Bluetooth disable failed (err: %d)", err);
+    return err;
   }
 
-  LOG_DBG("Bluetooth disabled");
+  LOG_INF("Bluetooth disabled");
 
   if (registered_callbacks && registered_callbacks->disabled)
   {
     registered_callbacks->disabled();
   }
-
-  return true;
 }
 
-bool bluetooth_enable()
+int ovsh_bluetooth_enable()
 {
   int err;
 
   err = bt_enable(NULL);
-  if (err)
+  if (err != 0)
   {
-    LOG_ERR("Bluetooth enable failed (err %d)", err);
-    return false;
+    LOG_ERR("Bluetooth enable failed (err: %d)", err);
+    return err;
   }
 
-  err = bt_le_adv_start(BT_LE_ADV_CONN, advertisement_data, ARRAY_SIZE(advertisement_data), scan_response_data, ARRAY_SIZE(scan_response_data));
-  if (err)
+  err = bt_le_adv_start(BT_LE_ADV_CONN,
+                        advertisement_data, ARRAY_SIZE(advertisement_data),
+                        scan_response_data, ARRAY_SIZE(scan_response_data));
+  if (err != 0)
   {
-    LOG_ERR("Bluetooth advertising failed to start (err %d)", err);
-    return false;
+    LOG_ERR("Bluetooth advertising failed to start (err: %d)", err);
+    return err;
   }
 
-  LOG_DBG("Bluetooth enabled");
+  LOG_INF("Bluetooth enabled");
 
   if (registered_callbacks && registered_callbacks->enabled)
   {
     registered_callbacks->enabled();
   }
-
-  return true;
 }
 
-void bluetooth_register_callbacks(struct bluetooth_callbacks *callbacks)
+void ovsh_bluetooth_register_callbacks(ovsh_bluetooth_callbacks_t *callbacks)
 {
   registered_callbacks = callbacks;
 }
 
-bool bluetooth_configure()
+int ovsh_bluetooth_configure()
 {
-  return true;
+  LOG_INF("Configuring Bluetooth");
+
+  LOG_DBG("Bluetooth configured");
 }

@@ -45,27 +45,65 @@ namespace openvsh
 
     k_timer_init(&debounce_timer_, debounce_timer_expired, NULL);
     k_timer_init(&ten_seconds_timer_, ten_seconds_timer_expired, NULL);
+    k_timer_init(&fifteen_seconds_timer_, fifteen_seconds_timer_expired, NULL);
 
     LOG_DBG("Button configured");
 
     return 0;
   }
 
+  void Button::set_pressed_handler(PressedHandler handler)
+  {
+    pressed_handler_ = handler;
+  }
+
+  void Button::set_released_handler(ReleasedHandler handler)
+  {
+    released_handler_ = handler;
+  }
+
+  void Button::set_pressed_for_ten_seconds_handler(PressedForTenSecondsHandler handler)
+  {
+    pressed_for_ten_seconds_handler_ = handler;
+  }
+
+  void Button::set_pressed_for_fifteen_seconds_handler(PressedForFifteenSecondsHandler handler)
+  {
+    pressed_for_fifteen_seconds_handler_ = handler;
+  }
+
   // private
 
-  void Button::pressed_ten_seconds_handler()
+  void Button::pressed_for_ten_seconds_handler()
   {
-    LOG_DBG("Button pressed for 10 seconds");
+    if (pressed_for_ten_seconds_handler_)
+    {
+      pressed_for_ten_seconds_handler_();
+    }
+  }
+
+  void Button::pressed_for_fifteen_seconds_handler()
+  {
+    if (pressed_for_fifteen_seconds_handler_)
+    {
+      pressed_for_fifteen_seconds_handler_();
+    }
   }
 
   void Button::pressed_handler()
   {
-    LOG_DBG("Button pressed");
+    if (pressed_handler_)
+    {
+      pressed_handler_();
+    }
   }
 
   void Button::released_handler()
   {
-    LOG_DBG("Button released");
+    if (released_handler_)
+    {
+      released_handler_();
+    }
   }
 
   void Button::debounce_timer_expired(struct k_timer *timer)
@@ -74,12 +112,19 @@ namespace openvsh
     button->pressed_handler();
 
     k_timer_start(&button->ten_seconds_timer_, K_SECONDS(10), K_NO_WAIT);
+    k_timer_start(&button->fifteen_seconds_timer_, K_SECONDS(15), K_NO_WAIT);
   }
 
   void Button::ten_seconds_timer_expired(struct k_timer *timer)
   {
-    Button *button = CONTAINER_OF(timer, class Button, debounce_timer_);
-    button->pressed_ten_seconds_handler();
+    Button *button = CONTAINER_OF(timer, class Button, ten_seconds_timer_);
+    button->pressed_for_ten_seconds_handler();
+  }
+
+  void Button::fifteen_seconds_timer_expired(struct k_timer *timer)
+  {
+    Button *button = CONTAINER_OF(timer, class Button, fifteen_seconds_timer_);
+    button->pressed_for_fifteen_seconds_handler();
   }
 
   void Button::callback_handler(const struct device *port, struct gpio_callback *cb, gpio_port_pins_t pins)
@@ -94,6 +139,7 @@ namespace openvsh
     {
       k_timer_stop(&button->debounce_timer_);
       k_timer_stop(&button->ten_seconds_timer_);
+      k_timer_stop(&button->fifteen_seconds_timer_);
       button->released_handler();
     }
   }

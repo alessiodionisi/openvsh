@@ -46,12 +46,23 @@ namespace openvsh
 
   void RGB::set_brightness(double brightness)
   {
+    if (fading_)
+    {
+      return;
+    }
+
     brightness_ = brightness;
     update();
   }
 
   void RGB::start_fading()
   {
+    if (fading_)
+    {
+      return;
+    }
+
+    fading_ = true;
     fading_increase_ = true;
     brightness_ = 0.0;
     update();
@@ -61,6 +72,12 @@ namespace openvsh
 
   void RGB::stop_fading()
   {
+    if (!fading_)
+    {
+      return;
+    }
+
+    fading_ = false;
     k_timer_stop(&fading_timer_);
     update();
   }

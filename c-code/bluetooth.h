@@ -6,22 +6,22 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
-typedef void (*bluetooth_connected_cb_t)();
-typedef void (*bluetooth_disconnected_cb_t)();
-typedef void (*bluetooth_enabled_cb_t)();
-typedef void (*bluetooth_disabled_cb_t)();
+typedef void (*ovsh_bluetooth_connected_cb_t)();
+typedef void (*ovsh_bluetooth_disconnected_cb_t)();
+typedef void (*ovsh_bluetooth_enabled_cb_t)();
+typedef void (*ovsh_bluetooth_disabled_cb_t)();
 
-struct bluetooth_callbacks
+typedef struct ovsh_bluetooth_callbacks_s
 {
-  bluetooth_connected_cb_t connected;
-  bluetooth_disconnected_cb_t disconnected;
-  bluetooth_enabled_cb_t enabled;
-  bluetooth_disabled_cb_t disabled;
-};
+  ovsh_bluetooth_connected_cb_t connected;
+  ovsh_bluetooth_disconnected_cb_t disconnected;
+  ovsh_bluetooth_enabled_cb_t enabled;
+  ovsh_bluetooth_disabled_cb_t disabled;
+} ovsh_bluetooth_callbacks_t;
 
-bool bluetooth_configure();
-bool bluetooth_disable();
-bool bluetooth_enable();
-void bluetooth_register_callbacks(struct bluetooth_callbacks *callbacks);
+int ovsh_bluetooth_configure();
+int ovsh_bluetooth_disable();
+int ovsh_bluetooth_enable();
+void ovsh_bluetooth_register_callbacks(ovsh_bluetooth_callbacks_t *callbacks);
 
 #endif /* BLUETOOTH_H */

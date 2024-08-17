@@ -2,13 +2,19 @@
 
 LOG_MODULE_DECLARE(openvsh, CONFIG_OPENVSH_LOG_LEVEL);
 
-void zigbee_register_callbacks(struct zigbee_callbacks *callbacks)
+void ovsh_zigbee_register_callbacks(ovsh_zigbee_callbacks_t *callbacks)
 {
   // registered_callbacks = callbacks;
 }
 
-bool zigbee_configure()
+int ovsh_zigbee_enable()
 {
+}
 
-  return true;
+int ovsh_zigbee_disable()
+{
+}
+
+int ovsh_zigbee_configure()
+{
 }

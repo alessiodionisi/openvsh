@@ -49,7 +49,8 @@ namespace openvsh
     uint8_t green_ = 0;
     uint8_t blue_ = 0;
     struct k_timer fading_timer_;
-    bool fading_increase_;
+    bool fading_increase_ = true;
+    bool fading_ = false;
 
     void update();
 
