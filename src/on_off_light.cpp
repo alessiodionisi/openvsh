@@ -14,6 +14,8 @@ namespace openvsh
 
     rgb_.set_color(RGBColor::White);
     rgb_.start_fading();
+
+    openvsh::Zigbee::get_instance()->configure();
   }
 
   void OnOffLight::run()

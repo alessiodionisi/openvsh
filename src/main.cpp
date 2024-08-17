@@ -1,7 +1,4 @@
-#include "button.h"
 #include "on_off_light.h"
-#include "rgb.h"
-#include "zigbee.h"
 
 #include <zephyr/logging/log.h>
 
@@ -13,10 +10,10 @@ static openvsh::OnOffLight on_off_light;
 
 int main(void)
 {
-  LOG_INF("Starting OpenVSH");
+  LOG_INF("Starting openvsh");
 
 #ifdef CONFIG_OPENVSH_DEVICE_ON_OFF_LIGHT
-  LOG_INF("Device is On/Off Light");
+  LOG_INF("On/off light device");
 
   on_off_light.configure();
   on_off_light.run();

@@ -10,7 +10,7 @@ namespace openvsh
   {
     spec_ = spec;
 
-    LOG_DBG("Configuring button");
+    LOG_INF("Configuring button");
 
     int err;
 

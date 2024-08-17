@@ -71,7 +71,7 @@ namespace openvsh
     green_spec_ = green_spec;
     blue_spec_ = blue_spec;
 
-    LOG_DBG("Configuring RGB");
+    LOG_INF("Configuring RGB");
 
     if (!pwm_is_ready_dt(red_spec_) || !pwm_is_ready_dt(green_spec_) || !pwm_is_ready_dt(blue_spec_))
     {
