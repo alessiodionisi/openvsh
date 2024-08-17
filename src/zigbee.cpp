@@ -1,6 +1,5 @@
 #include "zigbee.h"
 
-#include "zb_ha_range_extender.h"
 #include "zb_ha_on_off_light.h"
 
 LOG_MODULE_REGISTER(openvsh_zigbee, CONFIG_OPENVSH_LOG_LEVEL);

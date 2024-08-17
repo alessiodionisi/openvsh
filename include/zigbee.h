@@ -7,8 +7,6 @@ extern "C"
 {
 #include <zboss_api.h>
 #include <zboss_api_addons.h>
-  // #include <zb_nrf_platform.h>
-  // #include <zigbee/zigbee_app_utils.h>
 
   void zboss_signal_handler(zb_uint8_t param);
 }
