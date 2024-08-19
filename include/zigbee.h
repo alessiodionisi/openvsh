@@ -1,51 +1,28 @@
-#pragma once
+#ifndef ZIGBEE_H
+#define ZIGBEE_H 1
 
 #include <zephyr/logging/log.h>
 #include <zephyr/kernel.h>
-#include <functional>
-
-extern "C"
-{
 #include <zboss_api.h>
 #include <zboss_api_addons.h>
 
-  void zboss_signal_handler(zb_uint8_t param);
-}
+typedef void (*ovsh_zigbee_connection_handler_t)(bool connected);
+typedef void (*ovsh_zigbee_status_handler_t)(bool enabled);
+typedef void (*ovsh_zigbee_identify_handler_t)(bool identifing);
+typedef void (*ovsh_zigbee_zcl_device_callback_handler_t)(zb_uint8_t param);
 
-namespace openvsh
+typedef struct ovsh_zigbee_handlers_s
 {
+  ovsh_zigbee_status_handler_t status;
+  ovsh_zigbee_connection_handler_t connection;
+  ovsh_zigbee_identify_handler_t identify;
+  ovsh_zigbee_zcl_device_callback_handler_t zcl_device_callback;
+} ovsh_zigbee_handlers_t;
 
-  class Zigbee
-  {
-  public:
-    using ConnectedHandler = std::function<void()>;
-    using DisconnectedHandler = std::function<void()>;
-    using IdentifyHandler = std::function<void(bool identifing)>;
+int ovsh_zigbee_enable();
+void ovsh_zigbee_register_handlers(ovsh_zigbee_handlers_t *handlers);
+void ovsh_zigbee_register_device_context(zb_af_device_ctx_t *context);
+void ovsh_zigbee_register_identify_handler(uint8_t endpoint);
+// void ovsh_zigbee_register_cluster_handler(uint8_t cluster);
 
-    Zigbee();
-    Zigbee(const Zigbee &) = delete;
-    Zigbee &operator=(const Zigbee &) = delete;
-
-    // void configure();
-    void enable();
-    void zboss_signal_handler(zb_uint8_t param);
-    void set_disconnected_handler();
-    void set_connected_handler(ConnectedHandler handler);
-    void set_disconnected_handler(DisconnectedHandler handler);
-    void set_identify_handler(uint8_t endpoint, IdentifyHandler handler);
-
-    static Zigbee *get_instance();
-
-  private:
-    k_thread zboss_thread_;
-    k_tid_t zboss_thread_id_ = NULL;
-    ConnectedHandler connected_handler_;
-    DisconnectedHandler disconnected_handler_;
-    IdentifyHandler identify_handler_;
-
-    static Zigbee *instance_;
-
-    static void zboss_thread();
-    static void zboss_identify_handler(zb_uint8_t param);
-  };
-}
+#endif /* ZIGBEE_H */

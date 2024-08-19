@@ -2,7 +2,7 @@
 
 LOG_MODULE_DECLARE(openvsh, CONFIG_OPENVSH_LOG_LEVEL);
 
-static ovsh_bluetooth_callbacks_t *registered_callbacks;
+static ovsh_bluetooth_handlers_t *registered_handlers;
 
 static const struct bt_data advertisement_data[] = {
     BT_DATA_BYTES(BT_DATA_FLAGS, (BT_LE_AD_GENERAL | BT_LE_AD_NO_BREDR)),
@@ -21,9 +21,9 @@ static void connected_handler(struct bt_conn *conn, uint8_t err)
 
   LOG_INF("Bluetooth connected");
 
-  if (registered_callbacks && registered_callbacks->connected)
+  if (registered_handlers && registered_handlers->connected)
   {
-    registered_callbacks->connected();
+    registered_handlers->connected();
   }
 }
 
@@ -31,9 +31,9 @@ static void disconnected_handler(struct bt_conn *conn, uint8_t reason)
 {
   LOG_INF("Bluetooth disconnected (reason: %u)", reason);
 
-  if (registered_callbacks && registered_callbacks->disconnected)
+  if (registered_handlers && registered_handlers->disconnected)
   {
-    registered_callbacks->disconnected();
+    registered_handlers->disconnected();
   }
 }
 
@@ -44,6 +44,8 @@ BT_CONN_CB_DEFINE(conn_callbacks) = {
 
 int ovsh_bluetooth_disable()
 {
+  LOG_INF("Disabling Bluetooth");
+
   int err;
 
   err = bt_le_adv_stop();
@@ -60,16 +62,19 @@ int ovsh_bluetooth_disable()
     return err;
   }
 
-  LOG_INF("Bluetooth disabled");
-
-  if (registered_callbacks && registered_callbacks->disabled)
+  if (registered_handlers && registered_handlers->disabled)
   {
-    registered_callbacks->disabled();
+    registered_handlers->disabled();
   }
+
+  LOG_DBG("Bluetooth disabled");
+  return 0;
 }
 
 int ovsh_bluetooth_enable()
 {
+  LOG_INF("Enabling Bluetooth");
+
   int err;
 
   err = bt_enable(NULL);
@@ -88,22 +93,16 @@ int ovsh_bluetooth_enable()
     return err;
   }
 
-  LOG_INF("Bluetooth enabled");
-
-  if (registered_callbacks && registered_callbacks->enabled)
+  if (registered_handlers && registered_handlers->enabled)
   {
-    registered_callbacks->enabled();
+    registered_handlers->enabled();
   }
+
+  LOG_DBG("Bluetooth enabled");
+  return 0;
 }
 
-void ovsh_bluetooth_register_callbacks(ovsh_bluetooth_callbacks_t *callbacks)
+void ovsh_bluetooth_register_handlers(ovsh_bluetooth_handlers_t *handlers)
 {
-  registered_callbacks = callbacks;
-}
-
-int ovsh_bluetooth_configure()
-{
-  LOG_INF("Configuring Bluetooth");
-
-  LOG_DBG("Bluetooth configured");
+  registered_handlers = handlers;
 }
