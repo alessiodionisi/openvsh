@@ -4,6 +4,8 @@
 #include "bluetooth.h"
 #include "zb_ha_on_off_light.h"
 
+#include <zephyr/kernel.h>
+#include <zephyr/sys/reboot.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/settings/settings.h>
 
@@ -186,6 +188,7 @@ static void button_pressed_for_fifteen_seconds_handler()
 {
   ovsh_bluetooth_disable();
   ZB_SCHEDULE_APP_CALLBACK(zb_bdb_reset_via_local_action, 0);
+  // sys_reboot(SYS_REBOOT_COLD);
 }
 
 static ovsh_button_handlers_t button_handlers = {
@@ -430,7 +433,7 @@ int main(void)
     return 0;
   }
 
-  err = settings_load();
+  err = settings_load_subtree("openvsh/on_off_light");
   if (err != 0)
   {
     LOG_ERR("Load of settings failed (err: %d)", err);
@@ -467,10 +470,30 @@ int main(void)
     return 0;
   }
 
+  on_off_light_attrs.basic_attrs.zcl_version = ZB_ZCL_BASIC_ZCL_VERSION_DEFAULT_VALUE;
+  on_off_light_attrs.basic_attrs.app_version = ZB_ZCL_BASIC_APPLICATION_VERSION_DEFAULT_VALUE;
+  on_off_light_attrs.basic_attrs.stack_version = ZB_ZCL_BASIC_STACK_VERSION_DEFAULT_VALUE;
+  on_off_light_attrs.basic_attrs.hw_version = ZB_ZCL_BASIC_HW_VERSION_DEFAULT_VALUE;
   ZB_ZCL_SET_STRING_VAL(on_off_light_attrs.basic_attrs.mf_name, "OpenVSH", ZB_ZCL_STRING_CONST_SIZE("OpenVSH"));
   ZB_ZCL_SET_STRING_VAL(on_off_light_attrs.basic_attrs.model_id, "On/Off Light", ZB_ZCL_STRING_CONST_SIZE("On/Off Light"));
+  ZB_ZCL_SET_STRING_VAL(on_off_light_attrs.basic_attrs.date_code, "", 0);
   on_off_light_attrs.basic_attrs.power_source = ZB_ZCL_BASIC_POWER_SOURCE_MAINS_SINGLE_PHASE;
+  ZB_ZCL_SET_STRING_VAL(on_off_light_attrs.basic_attrs.location_id, "", 0);
+  on_off_light_attrs.basic_attrs.ph_env = ZB_ZCL_BASIC_PHYSICAL_ENVIRONMENT_DEFAULT_VALUE;
+  ZB_ZCL_SET_STRING_VAL(on_off_light_attrs.basic_attrs.sw_ver, "", 0);
+
+  on_off_light_attrs.identify_attrs.identify_time = ZB_ZCL_IDENTIFY_IDENTIFY_TIME_DEFAULT_VALUE;
+
+  on_off_light_attrs.groups_attrs.name_support = ZB_ZCL_ATTR_GROUPS_NAME_NOT_SUPPORTED;
+
+  on_off_light_attrs.scenes_attrs.scene_count = ZB_ZCL_SCENES_SCENE_COUNT_DEFAULT_VALUE;
+  on_off_light_attrs.scenes_attrs.current_scene = ZB_ZCL_SCENES_CURRENT_SCENE_DEFAULT_VALUE;
+  on_off_light_attrs.scenes_attrs.scene_valid = ZB_ZCL_SCENES_SCENE_VALID_DEFAULT_VALUE;
+  on_off_light_attrs.scenes_attrs.name_support = ZB_ZCL_SCENES_NAME_SUPPORT_DEFAULT_VALUE;
+  on_off_light_attrs.scenes_attrs.current_group = ZB_ZCL_SCENES_CURRENT_GROUP_DEFAULT_VALUE;
+
   on_off_light_attrs.on_off_attrs.on_off = turned_on;
+
   on_off_light_attrs.on_off_light_settings_attrs.led_color = settings_led_color;
   on_off_light_attrs.on_off_light_settings_attrs.led_brightness_when_on = settings_led_brightness_when_on;
   on_off_light_attrs.on_off_light_settings_attrs.led_brightness_when_off = settings_led_brightness_when_off;

@@ -33,4 +33,15 @@
       nordic,invert;
     };
   };
+
+  pwm0_sleep: pwm0_sleep {
+    group2 {
+      psels = <NRF_PSEL(PWM_OUT0, 0, 14)>;
+      low-power-enable;
+    };
+    group3 {
+      psels = <NRF_PSEL(PWM_OUT0, 0, 15)>;
+      low-power-enable;
+    };
+  };
 };

@@ -1,7 +1,11 @@
+#ifdef CONFIG_OPENVSH_DEVICE_ON_OFF_LIGHT
+
 #ifndef ZB_HA_ON_OFF_LIGHT_H
 #define ZB_HA_ON_OFF_LIGHT_H 1
 
 #include "zb_zcl_on_off_light_settings.h"
+
+#include <zboss_api.h>
 
 #define ZB_HA_DEVICE_VER_ON_OFF_LIGHT 0
 #define ZB_HA_ON_OFF_LIGHT_IN_CLUSTER_NUM 6
@@ -90,3 +94,5 @@
                                 0, NULL)
 
 #endif /* ZB_HA_ON_OFF_LIGHT_H */
+
+#endif /* CONFIG_OPENVSH_DEVICE_ON_OFF_LIGHT */
