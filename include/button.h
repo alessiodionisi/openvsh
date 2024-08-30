@@ -7,17 +7,13 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
-typedef void (*ovsh_button_pressed_handler_t)();
+typedef void (*ovsh_button_pressed_handler_t)(uint8_t seconds);
 typedef void (*ovsh_button_released_handler_t)();
-typedef void (*ovsh_button_pressed_for_ten_seconds_handler_t)();
-typedef void (*ovsh_button_pressed_for_fifteen_seconds_handler_t)();
 
 typedef struct ovsh_button_handlers_s
 {
   ovsh_button_pressed_handler_t pressed;
   ovsh_button_released_handler_t released;
-  ovsh_button_pressed_for_ten_seconds_handler_t pressed_for_ten_seconds;
-  ovsh_button_pressed_for_fifteen_seconds_handler_t pressed_for_fifteen_seconds;
 } ovsh_button_handlers_t;
 
 #define OVSH_BUTTON_DECLARE_HEADER(NAME) \
@@ -66,7 +62,7 @@ typedef struct ovsh_button_handlers_s
   {                                                                                                 \
     if (NAME##_registered_handlers && NAME##_registered_handlers->pressed)                          \
     {                                                                                               \
-      NAME##_registered_handlers->pressed();                                                        \
+      NAME##_registered_handlers->pressed(0);                                                       \
     }                                                                                               \
   }                                                                                                 \
                                                                                                     \
@@ -77,9 +73,9 @@ typedef struct ovsh_button_handlers_s
                                                                                                     \
   static void NAME##_pressed_ten_seconds_work_handler()                                             \
   {                                                                                                 \
-    if (NAME##_registered_handlers && NAME##_registered_handlers->pressed_for_ten_seconds)          \
+    if (NAME##_registered_handlers && NAME##_registered_handlers->pressed)                          \
     {                                                                                               \
-      NAME##_registered_handlers->pressed_for_ten_seconds();                                        \
+      NAME##_registered_handlers->pressed(10);                                                      \
     }                                                                                               \
   }                                                                                                 \
                                                                                                     \
@@ -90,9 +86,9 @@ typedef struct ovsh_button_handlers_s
                                                                                                     \
   static void NAME##_pressed_fifteen_seconds_work_handler()                                         \
   {                                                                                                 \
-    if (NAME##_registered_handlers && NAME##_registered_handlers->pressed_for_fifteen_seconds)      \
+    if (NAME##_registered_handlers && NAME##_registered_handlers->pressed)                          \
     {                                                                                               \
-      NAME##_registered_handlers->pressed_for_fifteen_seconds();                                    \
+      NAME##_registered_handlers->pressed(15);                                                      \
     }                                                                                               \
   }                                                                                                 \
                                                                                                     \

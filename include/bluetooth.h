@@ -6,17 +6,13 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 
-typedef void (*ovsh_bluetooth_connected_handler_t)();
-typedef void (*ovsh_bluetooth_disconnected_handler_t)();
-typedef void (*ovsh_bluetooth_enabled_handler_t)();
-typedef void (*ovsh_bluetooth_disabled_handler_t)();
+typedef void (*ovsh_bluetooth_connection_handler_t)(bool connected);
+typedef void (*ovsh_bluetooth_status_handler_t)(bool enabled);
 
 typedef struct ovsh_bluetooth_handlers_s
 {
-  ovsh_bluetooth_connected_handler_t connected;
-  ovsh_bluetooth_disconnected_handler_t disconnected;
-  ovsh_bluetooth_enabled_handler_t enabled;
-  ovsh_bluetooth_disabled_handler_t disabled;
+  ovsh_bluetooth_connection_handler_t connection;
+  ovsh_bluetooth_status_handler_t status;
 } ovsh_bluetooth_handlers_t;
 
 int ovsh_bluetooth_disable();

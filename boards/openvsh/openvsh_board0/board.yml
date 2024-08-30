@@ -1,0 +1,5 @@
+board:
+  name: openvsh_board0
+  vendor: openvsh
+  socs:
+    - name: nrf52840

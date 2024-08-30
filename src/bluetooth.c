@@ -21,9 +21,9 @@ static void connected_handler(struct bt_conn *conn, uint8_t err)
 
   LOG_INF("Bluetooth connected");
 
-  if (registered_handlers && registered_handlers->connected)
+  if (registered_handlers && registered_handlers->connection)
   {
-    registered_handlers->connected();
+    registered_handlers->connection(true);
   }
 }
 
@@ -31,9 +31,9 @@ static void disconnected_handler(struct bt_conn *conn, uint8_t reason)
 {
   LOG_INF("Bluetooth disconnected (reason: %u)", reason);
 
-  if (registered_handlers && registered_handlers->disconnected)
+  if (registered_handlers && registered_handlers->connection)
   {
-    registered_handlers->disconnected();
+    registered_handlers->connection(false);
   }
 }
 
@@ -62,9 +62,9 @@ int ovsh_bluetooth_disable()
     return err;
   }
 
-  if (registered_handlers && registered_handlers->disabled)
+  if (registered_handlers && registered_handlers->status)
   {
-    registered_handlers->disabled();
+    registered_handlers->status(false);
   }
 
   LOG_DBG("Bluetooth disabled");
@@ -93,9 +93,9 @@ int ovsh_bluetooth_enable()
     return err;
   }
 
-  if (registered_handlers && registered_handlers->enabled)
+  if (registered_handlers && registered_handlers->status)
   {
-    registered_handlers->enabled();
+    registered_handlers->status(true);
   }
 
   LOG_DBG("Bluetooth enabled");

@@ -226,7 +226,6 @@ enum ovsh_rgb_brightness_e
                                                                                       \
   int NAME##_configure()                                                              \
   {                                                                                   \
-                                                                                      \
     LOG_INF("Configuring RGB " #NAME);                                                \
                                                                                       \
     if (!pwm_is_ready_dt(PTR_TO_VAL(SPEC).pwm_red))                                   \
@@ -242,12 +241,6 @@ enum ovsh_rgb_brightness_e
     }                                                                                 \
                                                                                       \
     if (!pwm_is_ready_dt(PTR_TO_VAL(SPEC).pwm_blue))                                  \
-    {                                                                                 \
-      LOG_ERR("RGB " #NAME " PWM is not ready");                                      \
-      return 1;                                                                       \
-    }                                                                                 \
-                                                                                      \
-    if (!pwm_is_ready_dt(PTR_TO_VAL(SPEC).pwm_red))                                   \
     {                                                                                 \
       LOG_ERR("RGB " #NAME " PWM is not ready");                                      \
       return 1;                                                                       \
