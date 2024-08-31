@@ -10,6 +10,9 @@ config OPENVSH_DEVICE_NONE
 config OPENVSH_DEVICE_ON_OFF_LIGHT
 	bool "On/Off Light"
 
+config OPENVSH_DEVICE_WINDOW_COVERING
+	bool "Window Covering"
+
 endchoice
 
 module = OPENVSH
