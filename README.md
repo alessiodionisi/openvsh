@@ -57,7 +57,7 @@ _Docs coming soon._
 Once the debug probe is connected, follow the last part of the [SEGGER J-Link Debug Probes](#segger-j-link-debug-probes) section, replacing `DeviceName` with `NRF52840_XXAA`. Alternatively, if you have installed the [nRF Command Line Tools](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools), you can use `nrfjprog`:
 
 ```
-nrfjprog --program /path/to/your/file.hex --eraseall --verify --reset
+nrfjprog --program /path/to/your/file.hex --chiperase --verify --reset
 ```
 
 ## Building
