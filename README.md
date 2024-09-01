@@ -62,7 +62,7 @@ Once the debug probe is connected, follow the last part of the [SEGGER J-Link De
 nrfjprog --program /path/to/your/file.hex --chiperase --verify --reset
 ```
 
-## Firmware Over-The-Air (FOTA) Update
+## Firmware Over-The-Air (FOTA) Update
 
 _Docs coming soon._
 
