@@ -26,7 +26,7 @@ Before flashing the device, you need to either [build the firmware](#building) o
 
 ### Devices Pinout
 
-_Docs coming soon._
+![Device pinout scheme](docs/device-pinout.png)
 
 ### SEGGER J-Link Debug Probes
 
@@ -54,13 +54,17 @@ JLinkExe -Device <DeviceName> -If SWD -speed 4000 -AutoConnect 1 -NoGui 1 -Comma
 
 To flash the device using the SEGGER J-Link included on the [nRF52840 DK](https://www.nordicsemi.com/Products/Development-hardware/nRF52840-DK) ([documented here](https://docs.nordicsemi.com/bundle/ncs-latest/page/zephyr/develop/flash_debug/nordic_segger.html)), you need to use the P20 connector ([documented here](https://docs.nordicsemi.com/bundle/ug_nrf52840_dk/page/UG/dk/ext_programming_support.html)). The pins to connect are the same as with any SWD-compatible debug probe: "SWDIO", "SWDCLK", and "RESET". You also need to use "VDD nRF" and any "GND" pin from the board (for example, the one on the P17 connector) to power the device. Additionally, you need to connect "SWDSEL" to another "VDD nRF" to signal to the board that an external device is connected. This ensures that any command issued using SEGGER J-Link tools will be directed to the device rather than the board. Below is a diagram showing how to connect them:
 
-_Docs coming soon._
+![nRF52840 DK J-Link](docs/nrf52840-dk-j-link.png)
 
 Once the debug probe is connected, follow the last part of the [SEGGER J-Link Debug Probes](#segger-j-link-debug-probes) section, replacing `DeviceName` with `NRF52840_XXAA`. Alternatively, if you have installed the [nRF Command Line Tools](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools), you can use `nrfjprog`:
 
 ```
 nrfjprog --program /path/to/your/file.hex --chiperase --verify --reset
 ```
+
+## Firmware Over-The-Air (FOTA) Update
+
+_Docs coming soon._
 
 ## Building
 
