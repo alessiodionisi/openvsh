@@ -45,7 +45,7 @@ Quit
 Execute `JLinkExe` to flash the device:
 
 ```
-JLinkExe -Device NRF52840_XXAA -If SWD -speed 4000 -AutoConnect 1 -NoGui 1 -CommandFile flash.jlink
+JLinkExe -Device <DeviceName> -If SWD -speed 4000 -AutoConnect 1 -NoGui 1 -CommandFile flash.jlink
 ```
 
 ### nRF52840 DK On-Board SEGGER J-Link
@@ -54,7 +54,7 @@ To flash the device using the SEGGER J-Link included on the [nRF52840 DK](https:
 
 _Docs coming soon._
 
-Once the debug probe is connected, follow the last part of the [SEGGER J-Link Debug Probes](#segger-j-link-debug-probes) section.
+Once the debug probe is connected, follow the last part of the [SEGGER J-Link Debug Probes](#segger-j-link-debug-probes) replacing `DeviceName` with `NRF52840_XXAA`.
 
 ## Building
 
