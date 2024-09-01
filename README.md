@@ -16,7 +16,7 @@ Frustrated with these issues, I opened one of the devices and discovered that it
 | Rolling shutter IoT connected mechanism (14594, 16494, 19594, 20594, 30804) | Window Covering     | Planned     |
 | IoT dial thermostat 2M (02973, 30810)                                       | Thermostat          | Planned     |
 | IoT connected dimmer mechanism 220-240V (14595, 19595, 20595, 30805)        | Dimmable Light      | Not Planned |
-| 16 A IoT connected actuator grey (14593, 16493, 19593, 20593, 30803)        |                     | Not Planned |
+| 16 A IoT connected actuator (14593, 16493, 19593, 20593, 30803)             |                     | Not Planned |
 
 ## Flashing
 
